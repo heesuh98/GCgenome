@@ -1,0 +1,19 @@
+import pandas as pd
+  
+#index_name=['Isoform','RefSeq','EntrezGeneID','Hugo_Symbol','Alteration','ProteinChange','Oncogenicity','Mutation_Effect','PMIDsforMutationEffect','AbstractsforMutationEffect']
+
+
+df_data = pd.read_csv("/storm/Analysis/HRD/OncoHRD/21OncoHRD08/CNVkit/allAnnotatedVariants.txt",sep="\t",encoding='ISO-8859-1')
+
+
+#print(df_data)
+
+cnt = len(df_data)
+
+condition = (df_data.Oncogenicity == 'Oncogenic') | (df_data.Oncogenicity =='Likely Oncogenic')
+aa = df_data[condition]
+#print(aa)
+#filt_df = aa['Hugo Symbol']
+filt_data = (aa.drop_duplicates(['Hugo Symbol']))
+final_data = filt_data['Hugo Symbol']
+final_data.to_csv('Onco_gene_list.txt', index = False)
